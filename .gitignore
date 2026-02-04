@@ -16,7 +16,7 @@
 **/*backup*
 **/*dump*
 
-# local data (si bind mounts)
+# local data
 data/
 **/data/
 volumes/
