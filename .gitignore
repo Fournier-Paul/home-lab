@@ -1,0 +1,27 @@
+# env
+.env
+**/.env
+
+# secrets / keys / certs
+**/secrets/*.txt
+**/secrets/*.key
+**/*.pem
+**/*.key
+**/*id_rsa*
+**/acme.json
+
+# backups / dumps
+**/*.sql
+**/*.tar.gz
+**/*backup*
+**/*dump*
+
+# local data (si bind mounts)
+data/
+**/data/
+volumes/
+**/volumes/
+
+# logs
+*.log
+nohup.out
