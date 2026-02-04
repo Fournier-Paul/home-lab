@@ -1,0 +1,24 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  compose-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Docker Compose
+        run: |
+          docker version
+          docker compose version
+
+      - name: Validate compose files (if present)
+        run: |
+          set -e
+          for f in stacks/*/compose.yml; do
+            echo "Validating $f"
+            docker compose -f "$f" config >/dev/null
+          done
