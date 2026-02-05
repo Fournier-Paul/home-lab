@@ -1,0 +1,24 @@
+volumes:
+  loki_data: {}
+  promtail_positions: {}
+
+services:
+  promtail:
+    image: grafana/promtail:2.9.0
+    container_name: promtail
+    restart: unless-stopped
+    volumes:
+      - /var/log:/var/log:ro
+      - promtail_positions:/positions
+      - ./promtail/promtail-config.yml:/etc/promtail/config.yml:ro
+    command:
+      - --config.file=/etc/promtail/config.yml
+    depends_on:
+      - loki
+    networks:
+      - monitoring
+
+
+# volumes:
+#   shared_data:
+#     external: true
