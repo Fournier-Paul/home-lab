@@ -25,3 +25,8 @@ volumes/
 # logs
 *.log
 nohup.out
+
+# editor backups
+*.save
+*.save.*
+*~
