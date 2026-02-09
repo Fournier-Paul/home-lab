@@ -1,0 +1,52 @@
+networks:
+  default:
+    name: jeedom
+    driver: bridge
+
+volumes:
+  jeedom_db: {}
+  jeedom_http: {}
+
+services:
+  mosquitto:
+    image: ${MOSQUITTO_IMAGE}
+    restart: unless-stopped
+    ports:
+      - "${MQTT_PORT}:1883"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config:ro
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+
+  zigbee2mqtt:
+    image: ${Z2M_IMAGE}
+    restart: unless-stopped
+    ports:
+      - "${Z2M_HTTP_PORT}:8081"
+    environment:
+      - TZ=${TZ}
+    volumes:
+      - ./zigbee2mqtt/data:/app/data
+    devices:
+      - "${ZIGBEE_DEVICE}:${ZIGBEE_DEVICE}"
+    depends_on:
+      - mosquitto
+
+  jeedom:
+    image: ${JEEDOM_IMAGE}
+    restart: unless-stopped
+    ports:
+      - "${JEEDOM_HTTP_PORT}:80"
+    volumes:
+      - jeedom_http:/var/www/html
+      - jeedom_db:/var/lib/mysql
+    tmpfs:
+      - /tmp/jeedom
+    privileged: true
+    healthcheck:
+      test: ["CMD", "curl", "-fs", "-S", "--max-time", "2", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    depends_on:
+      - mosquitto

@@ -1,0 +1,16 @@
+# local env (never commit)
+.env
+
+# sensitive / runtime data
+zigbee2mqtt/data/
+mosquitto/data/
+mosquitto/log/
+
+# generated local config / credentials
+mosquitto/config/mosquitto.conf
+mosquitto/config/passwordfile
+
+# editor backups
+*.save
+*.save.*
+*~
