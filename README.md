@@ -9,6 +9,6 @@ Objectif : proposer des templates propres, reproductibles et publiables (sans do
 - nextcloud : template / notes → stacks/nextcloud
 
 ## Quickstart :
+```bash
 cp stacks/<stack>/.env.example stacks/<stack>/.env
-docker compose -f stacks/<stack>/compose.yml config >/dev/null && echo OK
-docker compose -f stacks/<stack>/compose.yml up -d
+docker compose -f stacks/<stack>/compose.yml config >/dev/null && echo "OK"
