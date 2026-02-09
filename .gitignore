@@ -30,3 +30,6 @@ nohup.out
 *.save
 *.save.*
 *~
+
+# github actions (optional)
+.github/workflows/
