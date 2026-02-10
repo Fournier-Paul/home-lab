@@ -31,5 +31,3 @@ nohup.out
 *.save.*
 *~
 
-# github actions (optional)
-.github/workflows/

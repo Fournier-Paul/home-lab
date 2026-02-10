@@ -1,0 +1,17 @@
+name: compose-validate
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate compose files
+        run: |
+          docker compose -f stacks/monitoring/compose.yml config >/dev/null
+          docker compose -f stacks/monitoring/compose.yml -f stacks/monitoring/compose.logging.yml config >/dev/null
+          docker compose -f stacks/jeedom/compose.yml config >/dev/null
+          docker compose -f stacks/nextcloud-aio/compose.yml config >/dev/null

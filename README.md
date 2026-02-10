@@ -1,14 +1,23 @@
 # Homelab (Raspberry Pi 5)
 
-Docker Compose regroupant plusieurs stacks self-hosted (observabilité, domotique, cloud perso).
-Objectif : proposer des templates propres, reproductibles et publiables (sans données runtime ni secrets).
+Infrastructure templates using Docker Compose, organized as independent stacks.
 
-## Stacks :
-- monitoring : Prometheus + Grafana + node-exporter (+ Loki/Promtail en option) → stacks/monitoring
-- jeedom : Jeedom + Zigbee2MQTT + Mosquitto → stacks/jeedom
-- nextcloud : template / notes → stacks/nextcloud
+## Repository layout
+- `stacks/` — self-contained stacks (compose files + config templates)
+- `docs/` — architecture and operations notes
+- `scripts/` — helper scripts (optional)
 
-## Quickstart :
+## Stacks
+- `stacks/monitoring` — Prometheus, Grafana, node-exporter (+ optional Loki/Promtail)
+- `stacks/jeedom` — Jeedom, Mosquitto, Zigbee2MQTT
+- `stacks/nextcloud-aio` — Nextcloud All-in-One mastercontainer
+
+## Validation (no deployment)
+Validate compose syntax without starting containers:
+
 ```bash
-cp stacks/<stack>/.env.example stacks/<stack>/.env
-docker compose -f stacks/<stack>/compose.yml config >/dev/null && echo "OK"
+docker compose -f stacks/monitoring/compose.yml config >/dev/null
+docker compose -f stacks/monitoring/compose.yml -f stacks/monitoring/compose.logging.yml config >/dev/null
+docker compose -f stacks/jeedom/compose.yml config >/dev/null
+docker compose -f stacks/nextcloud-aio/compose.yml config >/dev/null
+
