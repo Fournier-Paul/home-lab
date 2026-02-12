@@ -9,9 +9,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Validate compose files
+
+      - name: Show versions
         run: |
-          docker compose -f stacks/monitoring/compose.yml config >/dev/null
-          docker compose -f stacks/monitoring/compose.yml -f stacks/monitoring/compose.logging.yml config >/dev/null
-          docker compose -f stacks/jeedom/compose.yml config >/dev/null
-          docker compose -f stacks/nextcloud-aio/compose.yml config >/dev/null
+          docker --version
+          docker compose version
+
+      - name: Validate monitoring
+        run: docker compose --env-file stacks/monitoring/.env.example -f stacks/monitoring/compose.yml config >/dev/null
+
+      - name: Validate monitoring + logging
+        run: docker compose --env-file stacks/monitoring/.env.example -f stacks/monitoring/compose.yml -f stacks/monitoring/compose.logging.yml config >/dev/null
+
+      - name: Validate jeedom
+        run: docker compose --env-file stacks/jeedom/.env.example -f stacks/jeedom/compose.yml config >/dev/null
+
+      - name: Validate nextcloud-aio
+        run: docker compose --env-file stacks/nextcloud-aio/.env.example -f stacks/nextcloud-aio/compose.yml config >/dev/null
